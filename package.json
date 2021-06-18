@@ -1,0 +1,36 @@
+{
+  "name": "@sudoo/react-hooks",
+  "version": "1.1.0",
+  "description": "React Hooks",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SudoDotDog/Sudoo-React-Hooks.git"
+  },
+  "author": "WMXPY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SudoDotDog/Sudoo-React-Hooks/issues"
+  },
+  "homepage": "https://github.com/SudoDotDog/Sudoo-React-Hooks#readme",
+  "devDependencies": {
+    "@sudoo/io": "^1.8.0",
+    "@sudoo/react-force": "^1.9.0",
+    "@sudoo/react-force-dev": "^1.9.0",
+    "@sudoo/triforce": "^2.9.26"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "instrument": true,
+    "reporter": [
+      "json",
+      "text-summary"
+    ],
+    "report-dir": "coverage",
+    "sourceMap": true
+  }
+}
