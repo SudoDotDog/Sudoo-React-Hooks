@@ -5,40 +5,23 @@
  */
 
 import * as React from "react";
+import { AsyncDataStates } from "./states";
 
-export type AsyncDataGetter<T extends any = any> = () => T;
+export type AsyncDataResolver<T extends any = any> = () => T | Promise<T>;
 
-export type AsyncDataStates<T extends any = any> = {
+export const useAsyncData = <T extends any = any>(resolver: AsyncDataResolver<T>, dependencies: any[] = []): AsyncDataStates<T> => {
 
-    readonly ready: boolean;
-    readonly preparing: boolean;
+    const [ready, setReady] = React.useState(false);
+    const [data, setData] = React.useState<T | undefined>(undefined);
 
-    readonly data?: T;
-    readonly ensureData: () => T;
-    readonly getDataOrDefault: (defaultData: T) => T;
-    readonly getDataOrUndefined: () => T | undefined;
-    readonly getDataOrNull: () => T | null;
-};
+    React.useEffect(() => {
 
-export class AsyncDataStates {
+        Promise.resolve(resolver()).then((currentData: T) => {
 
+            setReady(true);
+            setData(currentData);
+        });
+    }, dependencies);
 
-}
-
-export const useAsyncData = <T extends any = any>(): AnchorStates<Element> => {
-
-    const [anchor, setAnchor] = React.useState<undefined | Element>(initialElement);
-
-    return {
-
-        anchor,
-        mounted: typeof anchor !== 'undefined',
-
-        mount: (element: Element) => {
-            setAnchor(element);
-        },
-        unmount: () => {
-            setAnchor(undefined);
-        },
-    };
+    return AsyncDataStates.create(data, ready);
 };
