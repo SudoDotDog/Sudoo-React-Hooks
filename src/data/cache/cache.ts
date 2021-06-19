@@ -4,6 +4,8 @@
  * @description Cache
  */
 
+import * as React from "react";
+import { AsyncDataStates } from "../async/states";
 import { AsyncDataResolver } from "../declare";
 
 export class CacheableData<T extends any = any> {
@@ -18,5 +20,22 @@ export class CacheableData<T extends any = any> {
     private constructor(resolver: AsyncDataResolver<T>) {
 
         this._resolver = resolver;
+    }
+
+    public use(): AsyncDataStates<T> {
+
+        const [ready, setReady] = React.useState(false);
+        const [data, setData] = React.useState<T | undefined>(undefined);
+
+        React.useEffect(() => {
+
+            Promise.resolve(this._resolver()).then((currentData: T) => {
+
+                setReady(true);
+                setData(currentData);
+            });
+        }, []);
+
+        return AsyncDataStates.create(ready, data);
     }
 }
