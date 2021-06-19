@@ -17,9 +17,13 @@ export class CacheableData<T extends any = any> {
 
     private readonly _resolver: AsyncDataResolver<T>;
 
+    private _cachedPromise: Promise<T> | null;
+
     private constructor(resolver: AsyncDataResolver<T>) {
 
         this._resolver = resolver;
+
+        this._cachedPromise = null;
     }
 
     public use(): AsyncDataStates<T> {
@@ -29,7 +33,14 @@ export class CacheableData<T extends any = any> {
 
         React.useEffect(() => {
 
-            Promise.resolve(this._resolver()).then((currentData: T) => {
+            if (!this._cachedPromise) {
+                this._cachedPromise = Promise.resolve(this._resolver());
+                this._cachedPromise.then(() => {
+                    this._cachedPromise = null;
+                });
+            }
+
+            this._cachedPromise.then((currentData: T) => {
 
                 setReady(true);
                 setData(currentData);
