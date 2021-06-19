@@ -1,44 +1,61 @@
 /**
  * @author WMXPY
- * @namespace ReactHooks_Data
- * @description Async
+ * @namespace ReactHooks_Data_Async
+ * @description States
  */
 
-import * as React from "react";
+export class AsyncDataStates<T extends any = any> {
 
-export type AsyncDataGetter<T extends any = any> = () => T;
+    public static create<T extends any = any>(data?: T, ready?: boolean): AsyncDataStates<T> {
 
-export type AsyncDataStates<T extends any = any> = {
+        return new AsyncDataStates<T>(data, ready);
+    }
 
-    readonly ready: boolean;
-    readonly preparing: boolean;
+    private readonly _data?: T;
+    private readonly _ready?: boolean;
 
-    readonly data?: T;
-    readonly ensureData: () => T;
-    readonly getDataOrDefault: (defaultData: T) => T;
-    readonly getDataOrUndefined: () => T | undefined;
-    readonly getDataOrNull: () => T | null;
-};
+    private constructor(data?: T, ready?: boolean) {
 
-export class AsyncDataStates {
+        this._data = data;
+        this._ready = ready;
+    }
 
+    public get ready(): boolean {
+        return this._ready;
+    }
+    public get preparing(): boolean {
+        return !this._ready;
+    }
+    public get data(): T | undefined {
+        return this._data;
+    }
 
+    public ensureData(): T {
+
+        return this._data as T;
+    }
+
+    public getDataOrDefault(defaultData: T): T {
+
+        if (this._ready) {
+            return this.ensureData();
+        }
+        return defaultData;
+    }
+
+    public getDataOrUndefined(): T | undefined {
+
+        if (this._ready) {
+            return this.ensureData();
+        }
+        return undefined;
+    }
+
+    public getDataOrNull(): T | null {
+
+        if (this._ready) {
+            return this.ensureData();
+        }
+        return null;
+    }
 }
-
-export const useAsyncData = <T extends any = any>(): AnchorStates<Element> => {
-
-    const [anchor, setAnchor] = React.useState<undefined | Element>(initialElement);
-
-    return {
-
-        anchor,
-        mounted: typeof anchor !== 'undefined',
-
-        mount: (element: Element) => {
-            setAnchor(element);
-        },
-        unmount: () => {
-            setAnchor(undefined);
-        },
-    };
-};
