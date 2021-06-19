@@ -6,18 +6,18 @@
 
 export class AsyncDataStates<T extends any = any> {
 
-    public static create<T extends any = any>(data?: T, ready?: boolean): AsyncDataStates<T> {
+    public static create<T extends any = any>(ready: boolean, data?: T): AsyncDataStates<T> {
 
-        return new AsyncDataStates<T>(data, ready);
+        return new AsyncDataStates<T>(ready, data);
     }
 
+    private readonly _ready: boolean;
     private readonly _data?: T;
-    private readonly _ready?: boolean;
 
-    private constructor(data?: T, ready?: boolean) {
+    private constructor(ready: boolean, data?: T) {
 
-        this._data = data;
         this._ready = ready;
+        this._data = data;
     }
 
     public get ready(): boolean {

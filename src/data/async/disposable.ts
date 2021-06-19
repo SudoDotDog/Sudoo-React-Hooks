@@ -30,5 +30,5 @@ export const useDisposableAsyncData = <T extends any = any>(
         return disposer;
     }, dependencies);
 
-    return AsyncDataStates.create(data, ready);
+    return AsyncDataStates.create(ready, data);
 };

@@ -23,5 +23,5 @@ export const useAsyncData = <T extends any = any>(resolver: AsyncDataResolver<T>
         });
     }, dependencies);
 
-    return AsyncDataStates.create(data, ready);
+    return AsyncDataStates.create(ready, data);
 };
