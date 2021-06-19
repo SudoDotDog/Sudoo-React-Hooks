@@ -5,9 +5,8 @@
  */
 
 import * as React from "react";
+import { AsyncDataResolver } from "../declare";
 import { AsyncDataStates } from "./states";
-
-export type AsyncDataResolver<T extends any = any> = () => T | Promise<T>;
 
 export const useAsyncData = <T extends any = any>(resolver: AsyncDataResolver<T>, dependencies: any[] = []): AsyncDataStates<T> => {
 

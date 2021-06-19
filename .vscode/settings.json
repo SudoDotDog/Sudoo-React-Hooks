@@ -3,6 +3,7 @@
         "RMRF",
         "Unmount",
         "WMXPY",
+        "cacheable",
         "codecov",
         "deserialize",
         "mocharc",

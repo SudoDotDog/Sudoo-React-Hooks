@@ -5,10 +5,8 @@
  */
 
 import * as React from "react";
+import { DisposableAsyncDataDisposer, DisposableAsyncDataResolver } from "../declare";
 import { AsyncDataStates } from "./states";
-
-export type DisposableAsyncDataResolver<T extends any = any> = () => T | Promise<T>;
-export type DisposableAsyncDataDisposer = () => void;
 
 export const useDisposableAsyncData = <T extends any = any>(
     resolver: DisposableAsyncDataResolver<T>,
