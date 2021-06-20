@@ -20,8 +20,8 @@ export type FormFieldStates<T, H> = {
 };
 
 export const useFormField = <T extends any = any, H extends any = string>(
-    initialData: T,
-    initialHint?: H,
+    initialData: T | (() => T),
+    initialHint?: H | (() => H),
     initialError?: boolean,
 ): FormFieldStates<T, H> => {
 
