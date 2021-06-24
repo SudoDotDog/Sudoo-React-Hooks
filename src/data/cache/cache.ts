@@ -34,10 +34,8 @@ export class CacheableData<T extends any = any> {
         React.useEffect(() => {
 
             if (!this._cachedPromise) {
+
                 this._cachedPromise = Promise.resolve(this._resolver());
-                this._cachedPromise.then(() => {
-                    this._cachedPromise = null;
-                });
             }
 
             this._cachedPromise.then((currentData: T) => {
