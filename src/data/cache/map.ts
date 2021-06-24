@@ -7,34 +7,34 @@
 import * as React from "react";
 import { EmptyState } from "../..";
 import { AsyncDataStates } from "../async/states";
-import { AsyncDataResolver } from "../declare";
+import { NamedAsyncDataResolver } from "../declare";
 
-export class MappedCacheableData<T extends any = any> {
+export class MappedCacheableData<T extends any = any, Args extends any[] = []> {
 
-    public static create<T extends any = any>(resolver: AsyncDataResolver<T>): MappedCacheableData<T> {
+    public static create<T extends any = any, Args extends any[] = []>(resolver: NamedAsyncDataResolver<T, Args>): MappedCacheableData<T> {
 
-        return new MappedCacheableData<T>(resolver);
+        return new MappedCacheableData<T, Args>(resolver);
     }
 
-    private readonly _resolver: AsyncDataResolver<T>;
+    private readonly _resolver: NamedAsyncDataResolver<T, Args>;
 
     private _cachedPromise: Promise<T> | null;
 
-    private constructor(resolver: AsyncDataResolver<T>) {
+    private constructor(resolver: NamedAsyncDataResolver<T, Args>) {
 
         this._resolver = resolver;
 
         this._cachedPromise = null;
     }
 
-    public use(): AsyncDataStates<T> {
+    public use(...args: Args): AsyncDataStates<T> {
 
         const [data, setData] = React.useState<T | typeof EmptyState>(EmptyState);
 
         React.useEffect(() => {
 
             if (!this._cachedPromise) {
-                this._cachedPromise = Promise.resolve(this._resolver());
+                this._cachedPromise = Promise.resolve(this._resolver(...args));
                 this._cachedPromise.then(() => {
                     this._cachedPromise = null;
                 });
