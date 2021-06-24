@@ -6,6 +6,7 @@
 
 import * as React from "react";
 import { DisposableAsyncDataDisposer, DisposableAsyncDataResolver } from "../declare";
+import { EmptyState } from "./declare";
 import { AsyncDataStates } from "./states";
 
 export const useDisposableAsyncData = <T extends any = any>(
@@ -14,19 +15,17 @@ export const useDisposableAsyncData = <T extends any = any>(
     dependencies: any[] = [],
 ): AsyncDataStates<T> => {
 
-    const [ready, setReady] = React.useState(false);
-    const [data, setData] = React.useState<T | undefined>(undefined);
+    const [data, setData] = React.useState<T | typeof EmptyState>(EmptyState);
 
     React.useEffect(() => {
 
         Promise.resolve(resolver()).then((currentData: T) => {
 
-            setReady(true);
             setData(currentData);
         });
 
         return disposer;
     }, dependencies);
 
-    return AsyncDataStates.create(ready, data);
+    return AsyncDataStates.create(data);
 };

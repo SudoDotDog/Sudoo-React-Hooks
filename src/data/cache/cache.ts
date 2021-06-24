@@ -5,6 +5,7 @@
  */
 
 import * as React from "react";
+import { EmptyState } from "../..";
 import { AsyncDataStates } from "../async/states";
 import { AsyncDataResolver } from "../declare";
 
@@ -28,8 +29,7 @@ export class CacheableData<T extends any = any> {
 
     public use(): AsyncDataStates<T> {
 
-        const [ready, setReady] = React.useState(false);
-        const [data, setData] = React.useState<T | undefined>(undefined);
+        const [data, setData] = React.useState<T | typeof EmptyState>(EmptyState);
 
         React.useEffect(() => {
 
@@ -42,11 +42,10 @@ export class CacheableData<T extends any = any> {
 
             this._cachedPromise.then((currentData: T) => {
 
-                setReady(true);
                 setData(currentData);
             });
         }, []);
 
-        return AsyncDataStates.create(ready, data);
+        return AsyncDataStates.create(data);
     }
 }
