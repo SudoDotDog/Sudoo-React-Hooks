@@ -6,12 +6,13 @@
 
 import * as React from "react";
 import { AsyncDataResolver } from "../declare";
-import { AsyncDataType, EmptyState, FailedState } from "./declare";
+import { AsyncDataType, EmptyState } from "./declare";
 import { AsyncDataStates } from "./states";
 
 export const useAsyncData = <T extends any = any>(resolver: AsyncDataResolver<T>, dependencies: any[] = []): AsyncDataStates<T> => {
 
     const [data, setData] = React.useState<AsyncDataType<T>>(EmptyState);
+    const [failedError, setFailedError] = React.useState<Error | undefined>(undefined);
 
     React.useEffect(() => {
 
@@ -20,9 +21,9 @@ export const useAsyncData = <T extends any = any>(resolver: AsyncDataResolver<T>
             setData(currentData);
         }).catch((error: Error) => {
 
-            setData(FailedState);
+            setFailedError(error);
         });
     }, dependencies);
 
-    return AsyncDataStates.create(data);
+    return AsyncDataStates.create(data, failedError);
 };
