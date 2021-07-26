@@ -4,18 +4,18 @@
  * @description States
  */
 
-import { EmptyState } from "./declare";
+import { AsyncDataType, EmptyState, FailedState } from "./declare";
 
 export class AsyncDataStates<T extends any = any> {
 
-    public static create<T extends any = any>(data: T | typeof EmptyState): AsyncDataStates<T> {
+    public static create<T extends any = any>(data: AsyncDataType<T>): AsyncDataStates<T> {
 
         return new AsyncDataStates<T>(data);
     }
 
-    private readonly _data: T | typeof EmptyState;
+    private readonly _data: AsyncDataType<T>;
 
-    private constructor(data: T | typeof EmptyState) {
+    private constructor(data: AsyncDataType<T>) {
 
         this._data = data;
     }
@@ -28,7 +28,8 @@ export class AsyncDataStates<T extends any = any> {
     }
     public get data(): T | undefined {
 
-        if (this._data !== EmptyState) {
+        if (this._data !== EmptyState
+            && this._data !== FailedState) {
             return this._data;
         }
         return undefined;
