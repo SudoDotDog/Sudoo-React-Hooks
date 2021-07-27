@@ -44,8 +44,10 @@ export class AsyncDataStates<T extends any = any> {
 
     public get data(): T | undefined {
 
-        if (this._data !== EmptyState
-            && typeof this._data === 'undefined') {
+        if (this.failed) {
+            return undefined;
+        }
+        if (this._data !== EmptyState) {
             return this._data;
         }
         return undefined;
