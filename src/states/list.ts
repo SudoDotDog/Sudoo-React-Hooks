@@ -16,6 +16,7 @@ export type ListStates<Element> = {
 
     readonly push: (value: Element) => void;
     readonly pop: () => Element | undefined;
+
     readonly unshift: (value: Element) => void;
     readonly shift: () => Element | undefined;
 
@@ -47,6 +48,7 @@ export const useList = <Element extends any = any>(initialElements: Element[] = 
             setList(newList);
             return result;
         },
+
         unshift: (value: Element) => setList([value, ...list]),
         shift: () => {
 
