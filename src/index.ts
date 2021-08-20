@@ -16,4 +16,5 @@ export * from "./states/list";
 export * from "./states/loading";
 export * from "./states/map";
 export * from "./states/open";
+export * from "./states/switch";
 
