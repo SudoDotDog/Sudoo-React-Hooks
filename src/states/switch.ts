@@ -16,9 +16,9 @@ export type SwitchStates = {
     readonly turnOn: () => void;
 };
 
-export const useSwitch = (): SwitchStates => {
+export const useSwitch = (initial?: boolean): SwitchStates => {
 
-    const [switchValue, setSwitch] = React.useState(false);
+    const [switchValue, setSwitch] = React.useState(typeof initial === 'boolean' ? initial : false);
 
     return {
 

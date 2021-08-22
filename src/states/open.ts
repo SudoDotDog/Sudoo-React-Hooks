@@ -15,9 +15,9 @@ export type OpenStates = {
     readonly open: () => void;
 };
 
-export const useOpen = (): OpenStates => {
+export const useOpen = (initial?: boolean): OpenStates => {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(typeof initial === 'boolean' ? initial : false);
 
     return {
 
