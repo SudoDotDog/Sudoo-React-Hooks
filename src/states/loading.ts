@@ -15,9 +15,9 @@ export type LoadingStates = {
     readonly start: () => void;
 };
 
-export const useLoading = (): LoadingStates => {
+export const useLoading = (initial?: boolean): LoadingStates => {
 
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = React.useState(typeof initial === 'boolean' ? initial : false);
 
     return {
 
