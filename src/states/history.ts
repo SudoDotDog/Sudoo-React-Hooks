@@ -10,10 +10,14 @@ export type HistoryStates<T> = {
 
     readonly size: number;
     readonly histories: T[];
+
+    readonly updateLatest: () => void;
+
     readonly pushAndUpdate: (value: T) => void;
+    readonly popAndUpdate: () => void;
 };
 
-export const useHistory = <T>(initialValue?: T): HistoryStates<T> => {
+export const useHistory = <T>(setFunction: (value: T) => void, initialValue?: T): HistoryStates<T> => {
 
     const [histories, setHistories] = React.useState<T[]>(initialValue ? [initialValue] : []);
 
@@ -21,8 +25,31 @@ export const useHistory = <T>(initialValue?: T): HistoryStates<T> => {
 
         size: histories.length,
         histories,
+
+        updateLatest: () => {
+
+            setFunction(histories[histories.length - 1]);
+        },
         pushAndUpdate: (value: T): void => {
-            setHistories((previousHistories: T[]) => [...previousHistories, value]);
+
+            setFunction(value);
+            setHistories((previousHistories: T[]) => {
+                return [...previousHistories, value];
+            });
+        },
+        popAndUpdate: (): void => {
+
+            if (histories.length > 1) {
+                setFunction(histories[histories.length - 2]);
+            } else if (histories.length === 1) {
+                setFunction(histories[0]);
+            }
+
+            if (histories.length >= 1) {
+                setHistories((previousHistories: T[]) => {
+                    return previousHistories.slice(0, previousHistories.length - 1);
+                });
+            }
         },
     };
 };
