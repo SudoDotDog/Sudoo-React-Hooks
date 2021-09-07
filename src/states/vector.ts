@@ -22,6 +22,8 @@ export type VectorStates = {
     readonly setX: (x: number) => void;
     readonly setY: (y: number) => void;
     readonly setZ: (z: number) => void;
+
+    readonly setAll: (value: number) => void;
 };
 
 export const useVector = (init?: VectorInitial): VectorStates => {
@@ -32,6 +34,13 @@ export const useVector = (init?: VectorInitial): VectorStates => {
     const [Y, setY] = React.useState(typeof fixedInit.y === 'number' ? fixedInit.y : 0);
     const [Z, setZ] = React.useState(typeof fixedInit.z === 'number' ? fixedInit.z : 0);
 
+    const setAll = (value: number): void => {
+
+        setX(value);
+        setY(value);
+        setZ(value);
+    };
+
     return {
 
         x: X,
@@ -41,5 +50,7 @@ export const useVector = (init?: VectorInitial): VectorStates => {
         setX,
         setY,
         setZ,
+
+        setAll,
     };
 };
