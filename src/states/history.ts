@@ -13,48 +13,61 @@ export type HistoryStates<T> = {
 
     readonly updateLatest: () => void;
 
-    readonly push: (value: T) => void;
-    readonly pop: () => void;
+    readonly push: (value: T) => T[];
+    readonly pop: () => T[];
 
-    readonly pushAndUpdate: (value: T) => void;
-    readonly popAndUpdate: () => void;
+    readonly pushAndUpdate: (value: T) => T[];
+    readonly popAndUpdate: () => T[];
 };
 
-export const useHistory = <T>(setFunction: (value: T) => void, initialValue?: T): HistoryStates<T> => {
+const commonUpdateLatest = <T>(overrideHistories: T[], setFunction: (value: T | null) => void) => {
+
+    if (overrideHistories.length > 0) {
+        setFunction(overrideHistories[overrideHistories.length - 1]);
+    } else {
+        setFunction(null);
+    }
+};
+
+export const useHistory = <T>(setFunction: (value: T | null) => void, initialValue?: T): HistoryStates<T> => {
 
     const [histories, setHistories] = React.useState<T[]>(initialValue ? [initialValue] : []);
 
     const updateLatest = () => {
-        setFunction(histories[histories.length - 1]);
+        commonUpdateLatest(histories, setFunction);
     };
 
-    const push = (value: T): void => {
-        setHistories((previousHistories: T[]) => {
-            return [...previousHistories, value];
-        });
+    const push = (value: T): T[] => {
+
+        const newHistories: T[] = [...histories, value];
+        setHistories(newHistories);
+
+        return newHistories;
     };
 
-    const pop = (): void => {
+    const pop = (): T[] => {
+
         if (histories.length >= 1) {
-            setHistories((previousHistories: T[]) => {
-                return previousHistories.slice(0, previousHistories.length - 1);
-            });
+
+            const newHistories: T[] = histories.slice(0, histories.length - 1);
+            setHistories(newHistories);
+            return newHistories;
         }
+        return [];
     };
 
-    const pushAndUpdate = (value: T): void => {
-        setFunction(value);
-        push(value);
+    const pushAndUpdate = (value: T): T[] => {
+
+        const newHistories = push(value);
+        commonUpdateLatest(newHistories, setFunction);
+        return newHistories;
     };
 
-    const popAndUpdate = (): void => {
-        if (histories.length > 1) {
-            setFunction(histories[histories.length - 2]);
-        } else if (histories.length === 1) {
-            setFunction(histories[0]);
-        }
+    const popAndUpdate = (): T[] => {
 
-        pop();
+        const newHistories = pop();
+        commonUpdateLatest(newHistories, setFunction);
+        return newHistories;
     };
 
     return {
