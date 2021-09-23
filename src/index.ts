@@ -14,6 +14,7 @@ export * from "./form/field";
 export * from "./states/anchor";
 export * from "./states/boolean";
 export * from "./states/history";
+export * from "./states/integer";
 export * from "./states/list";
 export * from "./states/loading";
 export * from "./states/map";
