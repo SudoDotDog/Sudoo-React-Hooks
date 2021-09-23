@@ -12,6 +12,7 @@ export * from "./data/cache/cache";
 export * from "./data/declare";
 export * from "./form/field";
 export * from "./states/anchor";
+export * from "./states/boolean";
 export * from "./states/history";
 export * from "./states/list";
 export * from "./states/loading";
