@@ -19,6 +19,7 @@ export * from "./states/list";
 export * from "./states/loading";
 export * from "./states/map";
 export * from "./states/open";
+export * from "./states/stage";
 export * from "./states/switch";
 export * from "./states/vector";
 
