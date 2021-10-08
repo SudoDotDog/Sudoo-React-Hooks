@@ -10,6 +10,9 @@ export type StageStates<T> = {
 
     readonly currentStage: T;
 
+    readonly replaceStage: (stage: T) => void;
+    readonly replaceAndUpdateStage: (stage: T) => void;
+
     readonly updateStage: (stage: T) => void;
     readonly resetStage: () => void;
 };
@@ -23,6 +26,14 @@ export const useStage = <T extends string>(initialStage: T): StageStates<T> => {
     return {
 
         currentStage,
+
+        replaceStage: (stage: T) => {
+            refInitialStage.current = stage;
+        },
+        replaceAndUpdateStage: (stage: T) => {
+            refInitialStage.current = stage;
+            setCurrentStage(stage);
+        },
 
         updateStage: (stage: T) => {
             setCurrentStage(stage);
