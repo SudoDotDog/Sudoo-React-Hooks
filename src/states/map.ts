@@ -15,6 +15,8 @@ export type MapStates<Key extends string | number | symbol, Element> = {
 
     readonly get: (key: Key) => Element | undefined;
     readonly set: (key: Key, value: Element) => void;
+    readonly deleteKey: (key: Key) => void;
+    readonly deleteValue: (value: Element) => void;
 
     readonly merge: (newMap: Partial<Record<Key, Element>>) => void;
     readonly replace: (newMap: Record<Key, Element>) => void;
@@ -38,6 +40,36 @@ export const useMap = <Key extends string | number | symbol = string, Element ex
             ...map,
             [key]: value,
         }),
+        deleteKey: (key: Key) => {
+
+            const keys: Key[] = Object.keys(map) as any;
+            setMap(keys.reduce((result: Record<Key, Element>, currentKey: Key) => {
+
+                if (currentKey === key) {
+                    return result;
+                }
+
+                return {
+                    ...result,
+                    [currentKey]: map[currentKey],
+                };
+            }, {} as Record<Key, Element>));
+        },
+        deleteValue: (value: Element) => {
+
+            const keys: Key[] = Object.keys(map) as any;
+            setMap(keys.reduce((result: Record<Key, Element>, currentKey: Key) => {
+
+                if (map[currentKey] === value) {
+                    return result;
+                }
+
+                return {
+                    ...result,
+                    [currentKey]: map[currentKey],
+                };
+            }, {} as Record<Key, Element>));
+        },
 
         merge: (newMap: Partial<Record<Key, Element>>) => setMap({
             ...map,
