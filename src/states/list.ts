@@ -13,6 +13,7 @@ export type ListStates<Element> = {
 
     readonly get: (index: number) => Element | undefined;
     readonly set: (index: number, value: Element) => void;
+    readonly delete: (index: number) => void;
 
     readonly push: (value: Element) => void;
     readonly pop: () => Element | undefined;
@@ -36,6 +37,11 @@ export const useList = <Element extends any = any>(initialElements: Element[] = 
         set: (index: number, value: Element) => setList(
             list.map((item: Element, itemIndex: number) => {
                 return index === itemIndex ? value : item;
+            }),
+        ),
+        delete: (index: number) => setList(
+            list.filter((_item: Element, itemIndex: number) => {
+                return index !== itemIndex;
             }),
         ),
 
