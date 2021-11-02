@@ -1,7 +1,7 @@
 # Sudoo-React-Hooks
 
 [![Continuous Integration](https://github.com/SudoDotDog/Sudoo-React-Hooks/actions/workflows/ci.yml/badge.svg)](https://github.com/SudoDotDog/Sudoo-React-Hooks/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/SudoDotDog/Sudoo-React-Hooks/branch/master/graph/badge.svg)](https://codecov.io/gh/SudoDotDog/Sudoo-React-Hooks)
+[![codecov](https://codecov.io/gh/SudoDotDog/Sudoo-React-Hooks/branch/main/graph/badge.svg)](https://codecov.io/gh/SudoDotDog/Sudoo-React-Hooks)
 [![npm version](https://badge.fury.io/js/%40sudoo%2Freact-hooks.svg)](https://badge.fury.io/js/%40sudoo%2Freact-hooks)
 [![downloads](https://img.shields.io/npm/dm/@sudoo/react-hooks.svg)](https://www.npmjs.com/package/@sudoo/react-hooks)
 
