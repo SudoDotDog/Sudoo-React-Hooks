@@ -13,8 +13,11 @@ export type ListStates<Element> = {
 
     readonly get: (index: number) => Element | undefined;
     readonly set: (index: number, value: Element) => void;
+
     readonly deleteWithIndex: (index: number) => void;
     readonly deleteWithValue: (value: Element, compareFunction?: (element1: Element, element2: Element) => boolean) => void;
+
+    readonly has: (value: Element, compareFunction?: (element1: Element, element2: Element) => boolean) => boolean;
 
     readonly push: (value: Element) => void;
     readonly pop: () => Element | undefined;
@@ -40,18 +43,34 @@ export const useList = <Element extends any = any>(initialElements: Element[] = 
                 return index === itemIndex ? value : item;
             }),
         ),
+
         deleteWithIndex: (index: number) => setList(
             list.filter((_item: Element, itemIndex: number) => {
                 return index !== itemIndex;
             }),
         ),
-        deleteWithValue: (value: Element, compareFunction: (element1: Element, element2: Element) => boolean = (element1: Element, element2: Element) => {
-            return element1 === element2;
-        }) => setList(
+        deleteWithValue: (
+            value: Element,
+            compareFunction: (element1: Element, element2: Element) => boolean =
+                (element1: Element, element2: Element) => {
+                    return element1 === element2;
+                },
+        ) => setList(
             list.filter((item: Element) => {
                 return !compareFunction(item, value);
             }),
         ),
+
+        has: (
+            value: Element,
+            compareFunction: (element1: Element, element2: Element) => boolean =
+
+                (element1: Element, element2: Element) => {
+                    return element1 === element2;
+                },
+        ) => list.some((item: Element) => {
+            return compareFunction(item, value);
+        }),
 
         push: (value: Element) => setList([...list, value]),
         pop: () => {
