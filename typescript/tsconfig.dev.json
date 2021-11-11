@@ -24,6 +24,7 @@
         "outDir": "../app",
         "removeComments": true,
         "resolveJsonModule": true,
+        "skipLibCheck": true,
         "strict": true,
         "strictNullChecks": true,
         "target": "ES2020"
