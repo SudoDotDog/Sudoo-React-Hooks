@@ -28,7 +28,7 @@ export type ListStates<Element> = {
     readonly replace: (list: Element[]) => void;
 };
 
-export const useList = <Element extends any = any>(initialElements: Element[] = []): ListStates<Element> => {
+export const useList = <Element = any>(initialElements: Element[] = []): ListStates<Element> => {
 
     const [list, setList] = React.useState(initialElements);
 

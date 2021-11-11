@@ -6,9 +6,9 @@
 
 import { AsyncDataType, EmptyState } from "./declare";
 
-export class AsyncDataStates<T extends any = any> {
+export class AsyncDataStates<T = any> {
 
-    public static create<T extends any = any>(data: AsyncDataType<T>, failedError?: Error): AsyncDataStates<T> {
+    public static create<T = any>(data: AsyncDataType<T>, failedError?: Error): AsyncDataStates<T> {
 
         return new AsyncDataStates<T>(data, failedError);
     }

@@ -19,7 +19,7 @@ export type FormFieldStates<T, H> = {
     readonly clearError: () => void;
 };
 
-export const useFormField = <T extends any = any, H extends any = string>(
+export const useFormField = <T = any, H = string>(
     initialData: T | (() => T),
     initialHint?: H | (() => H),
     initialError?: boolean,

@@ -9,7 +9,7 @@ import { DisposableAsyncDataDisposer, DisposableAsyncDataResolver } from "../dec
 import { EmptyState } from "./declare";
 import { AsyncDataStates } from "./states";
 
-export const useDisposableAsyncData = <T extends any = any>(
+export const useDisposableAsyncData = <T = any>(
     resolver: DisposableAsyncDataResolver<T>,
     disposer: DisposableAsyncDataDisposer,
     dependencies: any[] = [],

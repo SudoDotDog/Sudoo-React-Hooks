@@ -9,9 +9,9 @@ import { EmptyState } from "../..";
 import { AsyncDataStates } from "../async/states";
 import { AsyncDataResolver } from "../declare";
 
-export class CacheableData<T extends any = any> {
+export class CacheableData<T = any> {
 
-    public static create<T extends any = any>(resolver: AsyncDataResolver<T>): CacheableData<T> {
+    public static create<T = any>(resolver: AsyncDataResolver<T>): CacheableData<T> {
 
         return new CacheableData<T>(resolver);
     }

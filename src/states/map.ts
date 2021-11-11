@@ -22,7 +22,7 @@ export type MapStates<Key extends string | number | symbol, Element> = {
     readonly replace: (newMap: Record<Key, Element>) => void;
 };
 
-export const useMap = <Key extends string | number | symbol = string, Element extends any = any>(
+export const useMap = <Key extends string | number | symbol = string, Element = any>(
     initialMap: Record<Key, Element> = {} as any,
 ): MapStates<Key, Element> => {
 
