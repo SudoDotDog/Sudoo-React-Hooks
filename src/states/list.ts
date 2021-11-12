@@ -30,7 +30,9 @@ export type ListStates<Element> = {
     readonly unshift: (value: Element) => void;
     readonly shift: () => Element | undefined;
 
-    readonly replace: (list: Element[]) => void;
+    readonly replaceWith: (list: Element[]) => void;
+    readonly mapAndReplace: (callback: (element: Element, index: number, array: Element[]) => Element) => void;
+    readonly flatMapAndReplace: (callback: (element: Element, index: number, array: Element[]) => Element[]) => void;
     readonly filterAndReplace: (callback: (element: Element, index: number, array: Element[]) => boolean) => void;
 };
 
@@ -103,7 +105,13 @@ export const useList = <Element = any>(initialElements: Element[] = []): ListSta
             return result;
         },
 
-        replace: (newList: Element[]) => setList(newList),
+        replaceWith: (newList: Element[]) => setList(newList),
+        mapAndReplace: (callback: (element: Element, index: number, array: Element[]) => Element) => setList(
+            list.map(callback),
+        ),
+        flatMapAndReplace: (callback: (element: Element, index: number, array: Element[]) => Element[]) => setList(
+            list.flatMap(callback),
+        ),
         filterAndReplace: (callback: (element: Element, index: number, array: Element[]) => boolean) => setList(
             list.filter(callback),
         ),
