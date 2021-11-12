@@ -31,6 +31,7 @@ export type ListStates<Element> = {
     readonly shift: () => Element | undefined;
 
     readonly replace: (list: Element[]) => void;
+    readonly filterAndReplace: (callback: (element: Element, index: number, array: Element[]) => boolean) => void;
 };
 
 export const useList = <Element = any>(initialElements: Element[] = []): ListStates<Element> => {
@@ -103,5 +104,8 @@ export const useList = <Element = any>(initialElements: Element[] = []): ListSta
         },
 
         replace: (newList: Element[]) => setList(newList),
+        filterAndReplace: (callback: (element: Element, index: number, array: Element[]) => boolean) => setList(
+            list.filter(callback),
+        ),
     };
 };
