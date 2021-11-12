@@ -22,7 +22,7 @@ export type ListStates<Element> = {
     readonly map: <NewElement>(callback: (element: Element, index: number, array: Element[]) => NewElement) => NewElement[];
     readonly flatMap: <NewElement>(callback: (element: Element, index: number, array: Element[]) => NewElement[]) => NewElement[];
     readonly reduce: <NewElement>(callback: (previousValue: NewElement, currentValue: Element, currentIndex: number, array: Element[]) => NewElement, initialValue?: NewElement) => NewElement;
-    readonly filter: <NewElement>(callback: (element: Element, index: number, array: Element[]) => boolean) => NewElement[];
+    readonly filter: (callback: (element: Element, index: number, array: Element[]) => boolean) => Element[];
 
     readonly push: (value: Element) => void;
     readonly pop: () => Element | undefined;
@@ -78,12 +78,12 @@ export const useList = <Element = any>(initialElements: Element[] = []): ListSta
             return compareFunction(item, value);
         }),
 
-        map: list.map,
-        flatMap: list.flatMap,
-        reduce: list.reduce,
-        filter: list.filter,
+        map: <NewElement>(callback: (element: Element, index: number, array: Element[]) => NewElement) => list.map(callback),
+        flatMap: <NewElement>(callback: (element: Element, index: number, array: Element[]) => NewElement[]) => list.flatMap(callback),
+        reduce: <NewElement>(callback: (previousValue: NewElement, currentValue: Element, currentIndex: number, array: Element[]) => NewElement, initialValue?: NewElement) => list.reduce(callback, initialValue),
+        filter: (callback: (element: Element, index: number, array: Element[]) => boolean) => list.filter(callback),
 
-        push: (value: Element) => setList([...list, value]),
+        push: (...value: Element[]) => setList([...list, ...value]),
         pop: () => {
 
             const newList: Element[] = [...list];
@@ -93,7 +93,7 @@ export const useList = <Element = any>(initialElements: Element[] = []): ListSta
             return result;
         },
 
-        unshift: (value: Element) => setList([value, ...list]),
+        unshift: (...value: Element[]) => setList([...value, ...list]),
         shift: () => {
 
             const newList: Element[] = [...list];
