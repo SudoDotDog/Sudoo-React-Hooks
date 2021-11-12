@@ -21,7 +21,7 @@ export type ListStates<Element> = {
 
     readonly map: <NewElement>(callback: (element: Element, index: number, array: Element[]) => NewElement) => NewElement[];
     readonly flatMap: <NewElement>(callback: (element: Element, index: number, array: Element[]) => NewElement[]) => NewElement[];
-    readonly reduce: <NewElement>(callback: (previousValue: NewElement, currentValue: Element, currentIndex: number, array: Element[]) => NewElement, initialValue?: NewElement) => NewElement;
+    readonly reduce: <NewElement>(callback: (previousValue: NewElement, currentValue: Element, currentIndex: number, array: Element[]) => NewElement, initialValue: NewElement) => NewElement;
     readonly filter: (callback: (element: Element, index: number, array: Element[]) => boolean) => Element[];
 
     readonly push: (value: Element) => void;
@@ -82,7 +82,7 @@ export const useList = <Element = any>(initialElements: Element[] = []): ListSta
 
         map: <NewElement>(callback: (element: Element, index: number, array: Element[]) => NewElement) => list.map(callback),
         flatMap: <NewElement>(callback: (element: Element, index: number, array: Element[]) => NewElement[]) => list.flatMap(callback),
-        reduce: <NewElement>(callback: (previousValue: NewElement, currentValue: Element, currentIndex: number, array: Element[]) => NewElement, initialValue?: NewElement) => list.reduce(callback, initialValue),
+        reduce: <NewElement>(callback: (previousValue: NewElement, currentValue: Element, currentIndex: number, array: Element[]) => NewElement, initialValue: NewElement) => list.reduce<NewElement>(callback, initialValue),
         filter: (callback: (element: Element, index: number, array: Element[]) => boolean) => list.filter(callback),
 
         push: (...value: Element[]) => setList([...list, ...value]),
