@@ -20,7 +20,9 @@ export type ListStates<Element> = {
     readonly has: (value: Element, compareFunction?: (element1: Element, element2: Element) => boolean) => boolean;
 
     readonly map: <NewElement>(callback: (element: Element, index: number, array: Element[]) => NewElement) => NewElement[];
+    readonly flatMap: <NewElement>(callback: (element: Element, index: number, array: Element[]) => NewElement[]) => NewElement[];
     readonly reduce: <NewElement>(callback: (previousValue: NewElement, currentValue: Element, currentIndex: number, array: Element[]) => NewElement, initialValue?: NewElement) => NewElement;
+    readonly filter: <NewElement>(callback: (element: Element, index: number, array: Element[]) => boolean) => NewElement[];
 
     readonly push: (value: Element) => void;
     readonly pop: () => Element | undefined;
@@ -76,7 +78,9 @@ export const useList = <Element = any>(initialElements: Element[] = []): ListSta
         }),
 
         map: list.map,
+        flatMap: list.flatMap,
         reduce: list.reduce,
+        filter: list.filter,
 
         push: (value: Element) => setList([...list, value]),
         pop: () => {
